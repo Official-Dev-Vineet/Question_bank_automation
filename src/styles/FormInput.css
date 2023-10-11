@@ -1,0 +1,9 @@
+.input-field span {
+  display: none;
+}
+.input-field input:invalid[focused="true"] {
+  box-shadow: 0 0 0 2px var(--danger);
+}
+.input-field input:invalid[focused="true"] ~ span {
+  display: block;
+}

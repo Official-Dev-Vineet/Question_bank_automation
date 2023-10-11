@@ -1,0 +1,143 @@
+.start-test {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1rem;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  min-height: 500px;
+  overflow: hidden;
+  position: relative;
+}
+@media print {
+  html,
+  body {
+    display: none;
+  }
+}
+aside {
+  width: 100%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: transform 0.3s ease-in-out;
+  overflow: auto;
+  border-right: 0.2rem solid var(--primary);
+}
+.bar {
+  display: none;
+  z-index: 99;
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+}
+.bar svg {
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+aside::-webkit-scrollbar {
+  width: 0;
+}
+aside .attempted-question {
+  padding: 1rem;
+  overflow-y: auto;
+}
+.question-container {
+  padding: 1rem;
+}
+.option,
+.attempted-question li {
+  max-width: 85%;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+.option{
+  padding-left: 1.5rem !important;
+}
+.attempted-question li{
+  max-width: 100%;
+}
+.attempted-question li:hover {
+  color: #fff;
+}
+.option.selected,.option:hover {
+  background-color: var(--primary);
+  color:#fff;
+}
+.option.selected::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  border-radius: 10%;
+  background-color: var(--warning);
+}
+.option:hover,
+.attempted-question li:hover {
+  background-color: var(--primary);
+}
+.result-circle {
+  display: flex;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.result-circle svg {
+  position: relative;
+  height: 150px;
+  width: 150px;
+}
+svg circle {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 10;
+  stroke: rgba(100, 100, 100, 0.4);
+  transform: translate(-5px, -5px);
+  stroke-linecap: round;
+}
+svg circle:last-child {
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}
+svg text {
+  font: bold 16px sans-serif;
+  text-anchor: middle;
+}
+.attempted-question li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.attempted-question li span:last-child {
+  margin-left: 0.5rem;
+  display: none;
+}
+.attempted-question li span.show {
+  display: block;
+}
+@media screen and (max-width: 768px) {
+  .start-test {
+    grid-template-columns: 1fr;
+    min-height: 650px;
+  }
+  aside {
+    position: absolute;
+    z-index: 1;
+    transform: translateX(-100%);
+  }
+  .bar {
+    display: inline-block;
+  }
+  aside.active {
+    transform: translateX(0);
+  }
+  .bar.active svg {
+    color: #fff;
+  }
+}

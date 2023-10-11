@@ -1,0 +1,9 @@
+.feature-icon  svg{
+    font-size: 3em;
+}
+@media screen and (max-width: 765px) {
+    .feature-icon  svg{
+        font-size: 2em;
+    }
+    
+}
