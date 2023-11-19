@@ -1,21 +1,29 @@
 import { Button } from "rsuite"
 import FormInput from "../Utils/FormInput";
 import { useCallback, useState } from "react";
+import { fetchRequest } from "../Constant/fetchRequest";
 const ResetPassword = () => {
-    const getLocation = async () => {
-        await fetch(`https://ipapi.co/json/`).then(res => res.json()).then(location => setValues({ ...values, locationData: location }))
-    }
-    const [values, setValues] = useState({
-        email: "",
-        locationData: {}
-    })
+    const [emailId, setEmailId] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
+    const [successMsg, setSuccessMsg] = useState('')
+    const [loading, setLoading] = useState(false)
     const handleChange = useCallback((e) => {
-        setValues({ ...values, [e.target.name]: e.target.value })
-        console.log(values)
-    }, [values])
+        setEmailId(e.target.value)
+    }, [])
     const handleSubmit = async (event) => {
+        setLoading(true)
+        setErrorMsg('');
+        setSuccessMsg('');
         event.preventDefault();
-        await getLocation();
+        fetchRequest(`${import.meta.env.VITE_API_URL}/verify/forgotPassword`, "POST", {
+            emailId
+        }).then(res => {
+            res.code === 200 ? setSuccessMsg(res.message + " check your inbox !") : null
+        }).catch(err => {
+            err.response.request.status === 404 ? setErrorMsg("User Not Found") : setErrorMsg(err.message)
+        }).finally(() => {
+            setLoading(false)
+        })
     }
     return (
         <section className="reset-password mt mb shadow-3d-light padding-sm max-w mx-auto radius-1" style={{ "--mwValue": 120 }}>
@@ -24,8 +32,10 @@ const ResetPassword = () => {
             </h1>
             <div className="max-w mt mx-auto mb">
                 <form method="POST" id="reset-password-form" onSubmit={handleSubmit}>
-                    <FormInput name="email" label="Email" placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required type="email" id={"email"} errorMessage={"Please Enter Your EmailId related to your account"} onChange={handleChange} />
-                    <Button appearance="primary" type="submit" className="mt">Submit</Button>
+                    <FormInput name="emailId" label="Email" placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required type="email" id={"emailId"} errorMessage={"Please Enter Your EmailId related to your account"} onChange={handleChange} />
+                    <p className="t-danger mt">{errorMsg}</p>
+                    <p className="t-success mt">{successMsg}</p>
+                    <Button appearance="primary" type="submit" className="mt" loading={loading}>Submit</Button>
                 </form>
             </div>
         </section>

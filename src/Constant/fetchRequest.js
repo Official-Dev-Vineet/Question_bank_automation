@@ -11,7 +11,6 @@ export const fetchRequest = async (url, method, body) => {
   const result = await axios({
     method: method,
     url: url,
-
     data: body,
     ...options,
   }).then((response) => response.data);
