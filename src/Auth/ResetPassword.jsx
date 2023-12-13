@@ -8,6 +8,8 @@ const ResetPassword = () => {
     const [successMsg, setSuccessMsg] = useState('')
     const [loading, setLoading] = useState(false)
     const handleChange = useCallback((e) => {
+        setErrorMsg('')
+        setSuccessMsg('')
         setEmailId(e.target.value)
     }, [])
     const handleSubmit = async (event) => {
@@ -21,6 +23,7 @@ const ResetPassword = () => {
             res.code === 200 ? setSuccessMsg(res.message + " check your inbox !") : null
         }).catch(err => {
             err.response.request.status === 404 ? setErrorMsg("User Not Found") : setErrorMsg(err.message)
+            console.log(err)
         }).finally(() => {
             setLoading(false)
         })
