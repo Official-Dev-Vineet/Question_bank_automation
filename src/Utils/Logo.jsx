@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/svg/logo-no-background.svg";
+import logo from "../assets/logo.png";
 import PropTypes from "prop-types";
 export const Logo = ({size=100}) => {
   return (
